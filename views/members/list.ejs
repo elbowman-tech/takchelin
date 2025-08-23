@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title">회원 소개</h1>
+</div>
+
+<div class="content-wrapper container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 20%;">이름</th>
+                <th style="width: 20%;">급수</th>
+                <th style="width: 60%;">소개</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% members.forEach(member => { %>
+                <tr>
+                    <td><%= member.name %></td>
+                    <td><%= member.level %></td>
+                    <td style="text-align: left;"><%= member.intro %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>

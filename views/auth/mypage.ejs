@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title">마이페이지</h1>
+</div>
+
+<div class="content-wrapper container">
+    <div class="form-container" style="text-align: center;">
+        <h2>회원 탈퇴</h2>
+        <p style="margin: 1.5rem 0; color: var(--color-text-grey);">
+<!--            회원 탈퇴 시 작성하신 모든 게시글, 댓글, 앨범 사진 등의 정보가 영구적으로 삭제되며 복구할 수 없습니다.-->
+            <br>
+<!--            정말로 탈퇴하시겠습니까?-->
+        </p> 
+        <form action="/auth/delete" method="POST" onsubmit="return confirm('정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.');">
+            <button type="submit" class="btn btn-delete">회원 탈퇴하기</button>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,76 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title">탁구 뉴스</h1>
+</div>
+
+<div class="content-wrapper container">
+    <% if (user) { %>
+        <div style="text-align: right; margin-bottom: 2rem;">
+            <button class="btn" onclick="toggleForm()">뉴스 등록</button>
+        </div>
+        <div id="newsForm" class="form-container" style="max-width: none; margin-bottom: 3rem; display: none;">
+<!--            <h3>새로운 뉴스 공유하기</h3>  -->
+            <form action="/news/add" method="POST">
+                <div class="form-group">
+                    <label for="title">뉴스 제목</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="link">뉴스 링크 (URL)</label>
+                    <input type="url" id="link" name="link" required>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn">공유하기</button>
+                </div>
+            </form>
+        </div>
+    <% } %>
+
+    <div class="news-list-page">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 70%;">제목</th>
+                    <th style="width: 15%;">출처</th>
+                    <th style="width: 15%;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% autoNews.forEach(item => { %>
+                    <tr>
+                        <td class="col-title"><a href="<%= item.link %>" target="_blank"><%= item.title %></a></td>
+                        <td>자동 수집</td>
+                        <td></td>
+                    </tr>
+                <% }) %>
+                <% manualNews.forEach(item => { %>
+                    <tr>
+                        <td class="col-title"><a href="<%= item.link %>" target="_blank"><%= item.title %></a></td>
+                        <td><%= item.author_nickname %></td>
+                        <td>
+                            <% if (user && (user.isAdmin || user.id === item.author_id)) { %>
+                                <form action="/news/delete/<%= item.id %>" method="POST">
+                                    <button type="submit" class="btn btn-delete">삭제</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleForm() {
+        const form = document.getElementById('newsForm');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+
+<%- include('../partials/footer') %>

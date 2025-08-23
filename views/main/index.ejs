@@ -1,0 +1,92 @@
+<%- include('../partials/header') %>
+
+<section class="main-hero">
+    <div class="hero-content">
+        <h1 class="hero-title">TAKCHELIN</h1>
+        <p class="hero-subtitle">맛있게 치고! 맛있게 즐기자!</p>
+    </div>
+</section>
+
+<div class="content-wrapper container">
+    <!-- 1. 동호회 소식 -->
+    <section style="margin-bottom: 4rem;">
+        <h2 class="main-section-title">💬 동호회 소식</h2>
+        <div class="home-grid">
+            <div class="info-box">
+                <h3><a href="/community/board/notice">📢 공지사항</a></h3>
+                <ul class="news-list">
+                    <% notices.forEach(post => { %>
+                        <li style="display: flex; justify-content: space-between; align-items: center;">
+                            <a href="/community/post/<%= post.id %>" style="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= post.title %></a>
+                            <span style="color: var(--color-text-grey); flex-shrink: 0; margin-left: 1rem; font-size: 0.9rem;">
+                                <%= post.author_nickname %> | <%= new Date(post.createdAt).toLocaleDateString() %>
+                            </span>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3><a href="/community/board/free">📝 자유게시판</a></h3>
+                <ul class="news-list">
+                    <% freePosts.forEach(post => { %>
+                        <li style="display: flex; justify-content: space-between; align-items: center;">
+                            <a href="/community/post/<%= post.id %>" style="flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= post.title %></a>
+                            <span style="color: var(--color-text-grey); flex-shrink: 0; margin-left: 1rem; font-size: 0.9rem;">
+                                <%= post.author_nickname %> | <%= new Date(post.createdAt).toLocaleDateString() %>
+                            </span>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 시합일정 및 탁구뉴스 -->
+    <section style="margin-bottom: 4rem;">
+        <h2 class="main-section-title">📅 시합일정 및 탁구뉴스</h2>
+        <div class="home-grid">
+            <div class="info-box">
+                <h3><a href="/schedule">🏆 시합 일정</a></h3>
+                <ul class="schedule-list-main">
+                    <% schedules.forEach(item => { %>
+                        <li>
+                            <a href="/schedule/<%= item.id %>">
+                               <span class="date">[<%= item.event_date %>]</span>
+                               <span><%= item.title %></span>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            <div class="info-box">
+                <h3><a href="/news">📰 탁구 뉴스</a></h3>
+                <ul class="news-list">
+                    <% autoNews.forEach(item => { %>
+                        <li><a href="<%= item.link %>" target="_blank"><%= item.title %></a></li>
+                    <% }) %>
+                    <% manualNews.forEach(item => { %>
+                        <li><a href="<%= item.link %>" target="_blank"><%= item.title %></a></li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 앨범 -->
+    <section>
+        <h2 class="main-section-title"><a href="/album">🖼️ 탁슐랭의 추억</a></h2>
+        <div class="grid-container">
+            <% photos.forEach(photo => { %>
+               <a href="/album/<%= photo.id %>" class="grid-item">
+                    <% if (photo.fileType === 'image') { %>
+                        <img src="/uploads/album/<%= photo.filePath %>" alt="<%= photo.caption %>">
+                    <% } else { %>
+                        <video src="/uploads/album/<%= photo.filePath %>" controls></video>
+                    <% } %>
+                </a>
+            <% }) %>
+        </div>
+    </section>
+</div>
+
+<%- include('../partials/footer') %>

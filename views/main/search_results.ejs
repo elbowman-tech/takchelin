@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<div class="page-title-section">
+    <h1 class="page-title">'<%= query %>' 검색 결과</h1>
+</div>
+<div class="content-wrapper container">
+    <% if (results.length > 0) { %>
+        <div class="search-results-list">
+            <% results.forEach(result => { %>
+                <div class="search-result-item" style="background-color: var(--color-content-bg); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <a href="<%= result.url %>" target="<%= result.type === '뉴스' ? '_blank' : '_self' %>" style="display: block; color: var(--color-gold); font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;"><%= result.title %></a>
+                    <span style="background-color: var(--color-gold); color: var(--color-dark-bg); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.8rem; font-weight: bold;"><%= result.type %></span>
+                    <% if (result.description && result.description.trim() !== '') { %>
+                        <p style="margin-top: 1rem; color: var(--color-text-grey);"><%= result.description.substring(0, 150) %>...</p>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p style="text-align: center;">'<%= query %>'에 대한 검색 결과가 없습니다.</p>
+    <% } %>
+</div>
+<%- include('../partials/footer') %>

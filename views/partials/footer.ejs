@@ -1,0 +1,20 @@
+</main>
+    <footer style="text-align: center; padding: 3rem 0; margin-top: 3rem; background-color: #111;">
+        <p>&copy; 2025 TAKCHELIN. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        // 햄버거 메뉴 클릭 이벤트 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.querySelector('.mobile-menu-icon');
+            const mobileNav = document.querySelector('.mobile-nav');
+
+            if (menuIcon && mobileNav) {
+                menuIcon.addEventListener('click', function() {
+                    mobileNav.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

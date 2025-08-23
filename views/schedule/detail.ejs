@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title"><%= schedule.title %></h1>
+</div>
+
+<div class="content-wrapper container">
+    <div class="post-view-container">
+        <p><strong>날짜:</strong> <%= schedule.event_date %></p>
+        <p><strong>시간:</strong> <%= schedule.event_time || '미정' %></p>
+        <p><strong>장소:</strong> <%= schedule.location || '미정' %></p>
+        <p class="meta" style="margin-top: 1rem;"><strong>등록자:</strong> <%= schedule.author_nickname || '탈퇴한 회원' %></p>
+    </div>
+
+    <div class="btn-group" style="margin-top: 2rem;">
+        <a href="/schedule" class="btn">목록</a>
+        <% if (user && (user.isAdmin || user.id === schedule.author_id)) { %>
+            <a href="/schedule/edit/<%= schedule.id %>" class="btn">수정</a>
+            <form action="/schedule/delete/<%= schedule.id %>" method="POST" style="display: inline;" onsubmit="return confirm('이 일정을 삭제하시겠습니까?');">
+                <button type="submit" class="btn btn-delete">삭제</button>
+            </form>
+        <% } %>
+    </div>
+
+    <!-- Comment Section -->
+    <section class="comments-section">
+        <h2 class="section-title">댓글 (<%= comments.length %>)</h2>
+        <div class="comment-list">
+            <% comments.forEach(comment => { %>
+                <div class="comment-item">
+                    <div class="comment-meta">
+                        <div>
+                            <span class="comment-author"><%= comment.author_nickname || '탈퇴한 회원' %></span>
+                            <span class="comment-date"><%= new Date(comment.createdAt).toLocaleString() %></span>
+                        </div>
+                        <% if (user && (user.isAdmin || user.id === comment.author_id)) { %>
+                             <div class="comment-actions">
+                                <button onclick="toggleEditForm(<%= comment.id %>)">수정</button>
+                                <form class="comment-delete-form" action="/comments/delete/<%= comment.id %>" method="POST" onsubmit="return confirm('정말로 이 댓글을 삭제하시겠습니까?');">
+                                    <button type="submit">삭제</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div id="comment-content-<%= comment.id %>">
+                        <p class="comment-content"><%- comment.content.replace(/\n/g, '<br>') %></p>
+                    </div>
+                    <div id="edit-form-<%= comment.id %>" class="comment-edit-form">
+                        <form action="/comments/edit/<%= comment.id %>" method="POST">
+                            <div class="form-group">
+                                <textarea name="content" required style="min-height: 60px;"><%= comment.content %></textarea>
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn">저장</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        <% if (user) { %>
+            <div class="comment-form" style="margin-top: 2rem;">
+                <form action="/comments/add/schedule/<%= schedule.id %>" method="POST">
+                    <div class="form-group">
+                        <textarea name="content" placeholder="댓글을 입력하세요..." required style="min-height: 60px;"></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn">댓글 등록</button>
+                    </div>
+                </form>
+            </div>
+        <% } %>
+    </section>
+</div>
+
+<script>
+    function toggleEditForm(commentId) {
+        const contentDiv = document.getElementById(`comment-content-${commentId}`);
+        const editFormDiv = document.getElementById(`edit-form-${commentId}`);
+        
+        const isHidden = window.getComputedStyle(editFormDiv).display === 'none';
+
+        if (isHidden) {
+            contentDiv.style.display = 'none';
+            editFormDiv.style.display = 'block';
+        } else {
+            contentDiv.style.display = 'block';
+            editFormDiv.style.display = 'none';
+        }
+    }
+</script>
+
+<%- include('../partials/footer') %>

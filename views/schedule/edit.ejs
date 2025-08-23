@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="page-title-section">
+    <h1 class="page-title">일정 수정</h1>
+</div>
+
+<div class="content-wrapper container">
+    <div class="form-container">
+        <form action="/schedule/edit/<%= schedule.id %>" method="POST">
+            <div class="form-group">
+                <label for="title">시합명 / 일정 제목</label>
+                <input type="text" name="title" value="<%= schedule.title %>" required>
+            </div>
+            <div class="form-group">
+                <label for="event_date">날짜</label>
+                <input type="text" id="datepicker" name="event_date" value="<%= schedule.event_date %>" required>
+            </div>
+            <div class="form-group">
+                <label for="event_time">시간</label>
+                <input type="text" id="timepicker" name="event_time" value="<%= schedule.event_time %>">
+            </div>
+            <div class="form-group">
+                <label for="location">장소</label>
+                <input type="text" name="location" value="<%= schedule.location %>">
+            </div>
+            <div class="btn-group">
+                 <a href="/schedule/<%= schedule.id %>" class="btn" style="background-color: #555; color: #fff;">취소</a>
+                <button type="submit" class="btn">수정 완료</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#datepicker", { dateFormat: "Y-m-d" });
+        flatpickr("#timepicker", { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
+    });
+</script>
+
+<%- include('../partials/footer') %>

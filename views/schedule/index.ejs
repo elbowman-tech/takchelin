@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="page-title-section">
+    <h1 class="page-title">시합 일정</h1>
+</div>
+
+<div class="content-wrapper container">
+    <% if (user) { %>
+        <div style="text-align: right; margin-bottom: 2rem;">
+            <button class="btn" onclick="toggleForm('scheduleForm')">일정 등록</button>
+        </div>
+        <div id="scheduleForm" class="form-container" style="max-width: none; margin-bottom: 3rem; display: none;">
+            <h3>신규 시합 일정 등록</h3>
+            <form action="/schedule/add" method="POST">
+                <div class="form-group">
+                    <label for="title">시합명 / 일정 제목</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event_date">날짜</label>
+                    <input type="text" id="datepicker" name="event_date" placeholder="날짜를 선택하세요..." required>
+                </div>
+                <div class="form-group">
+                    <label for="event_time">시간</label>
+                    <input type="text" id="timepicker" name="event_time" placeholder="시간을 선택하세요...">
+                </div>
+                <div class="form-group">
+                    <label for="location">장소</label>
+                    <input type="text" name="location">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn">등록하기</button>
+                </div>
+            </form>
+        </div>
+    <% } %>
+
+    <div class="schedule-list-page">
+        <% schedules.forEach(item => { %>
+            <a href="/schedule/<%= item.id %>" class="schedule-item" style="text-decoration: none;">
+                <div>
+                    <h3><%= item.title %></h3>
+                    <p><strong>날짜:</strong> <%= item.event_date %> | <strong>시간:</strong> <%= item.event_time || '미정' %> | <strong>장소:</strong> <%= item.location || '미정' %></p>
+                    <p class="meta"><strong>등록자:</strong> <%= item.author_nickname || '탈퇴한 회원' %> | <strong>등록일:</strong> <%= new Date(item.createdAt).toLocaleDateString() %></p>
+                </div>
+            </a>
+        <% }) %>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#datepicker", { dateFormat: "Y-m-d" });
+        flatpickr("#timepicker", { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true });
+    });
+    function toggleForm(formId) {
+        const form = document.getElementById(formId);
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title"><%= title %></h1>
+</div>
+
+<div class="content-wrapper container">
+    <div style="text-align: right; margin-bottom: 2rem;">
+        <% if (user) { %>
+            <a href="/community/write/<%= category %>" class="btn">글쓰기</a>
+        <% } %>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 10%;">번호</th>
+                <th style="width: 55%;">제목</th>
+                <th style="width: 15%;">작성자</th>
+                <th style="width: 20%;">작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% posts.forEach(post => { %>
+                <tr>
+                    <td><%= post.id %></td>
+                    <td class="col-title"><a href="/community/post/<%= post.id %>"><%= post.title %></a></td>
+                    <td><%= post.author_nickname %></td>
+                    <td><%= new Date(post.createdAt).toLocaleString() %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>

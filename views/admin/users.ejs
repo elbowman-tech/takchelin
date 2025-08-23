@@ -1,0 +1,91 @@
+<%- include('../partials/header') %>
+
+<div class="page-title-section">
+    <h1 class="page-title">관리자 - 회원 관리</h1>
+</div>
+
+<div class="content-wrapper container">
+    <!-- 가입 신청 목록 -->
+    <h2 class="section-title">가입 신청 현황 (<%= pendingUsers.length %>)</h2>
+    <% if (pendingUsers.length > 0) { %>
+        <table class="data-table" style="margin-bottom: 4rem;">
+            <thead>
+                <tr>
+                    <th>아이디</th>
+                    <th>닉네임</th>
+                    <th>이름</th>
+                    <th>급수</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pendingUsers.forEach(u => { %>
+                    <tr>
+                        <td><%= u.username %></td>
+                        <td><%= u.nickname %></td>
+                        <td><%= u.name %></td>
+                        <td><%= u.level %></td>
+                        <td style="display: flex; gap: 0.5rem; justify-content: center;">
+                            <form action="/admin/users/approve/<%= u.id %>" method="POST">
+                                <button type="submit" class="btn">승인</button>
+                            </form>
+                            <form action="/admin/users/reject/<%= u.id %>" method="POST">
+                                <button type="submit" class="btn btn-delete">거절</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p style="text-align: center; margin-bottom: 4rem;">새로운 가입 신청이 없습니다.</p>
+    <% } %>
+
+    <!-- 정식 회원 목록 -->
+    <h2 class="section-title">정식 회원 목록 (<%= approvedUsers.length %>)</h2>
+    <p style="margin-bottom: 1rem; text-align: center;">현재 관리자: <%= adminCount %> / 3 명</p>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>아이디</th>
+                <th>닉네임</th>
+                <th>권한</th>
+                <th>관리</th>
+                <th>강제탈퇴</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% approvedUsers.forEach(u => { %>
+                <tr>
+                    <td><%= u.username %></td>
+                    <td><%= u.nickname %></td>
+                    <td><%= u.isAdmin ? '관리자' : '일반회원' %></td>
+                    <td>
+                        <% if (u.isAdmin) { %>
+                            <% if (u.id !== 1) { %>
+                                <form action="/admin/users/demote/<%= u.id %>" method="POST">
+                                    <button type="submit" class="btn btn-delete">관리자 해제</button>
+                                </form>
+                            <% } else { %>
+                                <span>최초 관리자</span>
+                            <% } %>
+                        <% } else { %>
+                            <form action="/admin/users/promote/<%= u.id %>" method="POST">
+                                <button type="submit" class="btn" <%= adminCount >= 3 ? 'disabled' : '' %>>관리자로 지정</button>
+                            </form>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (u.id !== 1) { %>
+                             <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('<%= u.nickname %> 회원을 정말로 강제 탈퇴시키겠습니까?');">
+                                <button type="submit" class="btn btn-delete">강제 탈퇴</button>
+                            </form>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>

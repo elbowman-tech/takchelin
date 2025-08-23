@@ -1,0 +1,70 @@
+<div class="container">
+    <a href="/" class="logo">
+        <img src="/images/logo.png" alt="탁슐랭 로고">
+    </a>
+
+    <!-- 데스크톱용 내비게이션 -->
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/about">동호회소개</a></li>
+            <li><a href="/members">회원소개</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">커뮤니티</a>
+                <div class="dropdown-content">
+                    <a href="/community/board/notice">공지사항</a>
+                    <a href="/community/board/free">자유게시판</a>
+                    <a href="/community/board/market">회원장터</a>
+                    <a href="/community/board/suggestion">건의사항</a>
+                </div>
+            </li>
+            <li><a href="/schedule">시합일정</a></li>
+            <li><a href="/album">동호회앨범</a></li>
+            <li><a href="/news">탁구뉴스</a></li>
+            <li><a href="http://www.tak9.com/" target="_blank">쇼핑몰</a></li>
+            <% if (user && user.isAdmin) { %>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn" style="color: var(--color-gold);">관리자</a>
+                    <div class="dropdown-content">
+                        <a href="/admin/users">회원 관리</a>
+                    </div>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+
+    <!-- 모바일용 햄버거 아이콘 -->
+    <div class="mobile-menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+</div>
+
+<!-- 모바일용 내비게이션 (숨겨져 있음) -->
+<nav class="mobile-nav">
+    <ul>
+        <li><a href="/about">동호회소개</a></li>
+        <li><a href="/members">회원소개</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropbtn">커뮤니티</a>
+            <div class="dropdown-content">
+                <a href="/community/board/notice">공지사항</a>
+                <a href="/community/board/free">자유게시판</a>
+                <a href="/community/board/market">회원장터</a>
+                <a href="/community/board/suggestion">건의사항</a>
+            </div>
+        </li>
+        <li><a href="/schedule">시합일정</a></li>
+        <li><a href="/album">동호회앨범</a></li>
+        <li><a href="/news">탁구뉴스</a></li>
+        <li><a href="http://www.tak9.com/" target="_blank">쇼핑몰</a></li>
+        <% if (user && user.isAdmin) { %>
+            <li class="dropdown">
+                <a href="#" class="dropbtn" style="color: var(--color-gold);">관리자</a>
+                <div class="dropdown-content">
+                    <a href="/admin/users">회원 관리</a>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+</nav>
